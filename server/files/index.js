@@ -89,7 +89,7 @@ function addMovie(imdbID) {
       if (response.status === 201) {
         // Task 2.2: Make sure to remove the added movie from the search results to avoid
         // giving the user the option to add it again.
-    
+
         loadMovies();
         updateGenres();
       } else if (response.status === 200) {
@@ -174,33 +174,50 @@ window.onload = function () {
   }
 
   function updateUI() {
+    const userGreeting = document.getElementById('userGreeting');
     const authBtn = document.getElementById('authBtn');
     const addMoviesBtn = document.getElementById('addMoviesBtn');
 
-    renderUserGreeting();
-    updateGenres();
-
     if (currentSession) {
+      // === TASK 1.2: Deutsches Datums- und Uhrzeitformat extrahieren ===
+      const loginDate = new Date(currentSession.loginTime);
+
+      const dateStr = loginDate.toLocaleDateString("de-DE", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      }); // z.B. "19. April 2026"
+
+      const timeStr = loginDate.toLocaleTimeString("de-DE", {
+        hour: "2-digit",
+        minute: "2-digit"
+      }); // z.B. "21:15"
+
+      // Text exakt wie in der Angabe gefordert zusammensetzen:
+      userGreeting.textContent = `Hi ${currentSession.firstName} ${currentSession.lastName}, du hast dich am ${dateStr} um ${timeStr} angemeldet.`;
+
+      // Logout-Logik für Task 1.3
       authBtn.textContent = 'Logout';
       authBtn.onclick = () => {
         fetch("/logout")
-          .then(response => {
-            if (response.ok) {
-              currentSession = null;
-              updateUI();
-            }
-          })
-          .catch(error => {
-            console.error('Logout failed:', error);
+          .then(() => {
+            currentSession = null;
+            updateUI();
+            updateGenres();
+            const main = document.querySelector("main");
+            main.innerHTML = '';
+            new ElementBuilder("p").text(messages.loggedOutGreeting).appendTo(main);
           });
       };
-      addMoviesBtn.style.display = 'inline';
+      addMoviesBtn.style.display = 'inline-block';
     } else {
-      removeMovies();
+      // Zustand wenn ausgeloggt
+      userGreeting.textContent = '';
       authBtn.textContent = 'Login';
       authBtn.onclick = () => {
         const loginForm = document.getElementById('loginForm');
         loginForm.reset();
+        document.getElementById('loginError').textContent = '';
         document.getElementById('loginDialog').showModal();
       };
       addMoviesBtn.style.display = 'none';
@@ -208,14 +225,31 @@ window.onload = function () {
   }
 
   // Login dialog
+  // Login dialog
   document.getElementById('loginForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData); // Konvertiert FormData in ein einfaches JS-Objekt
 
-    // Task 1.1: Implement the login submit flow to call `POST /login` 
-    // with username and password, handle errors, save the response 
-    // into `currentSession`, then call `updateUI()` and `loadMovies()`.
-
+    fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+      .then(res => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then(sessionData => {
+        currentSession = sessionData; // Speichert die Server-Antwort global
+        document.getElementById('loginDialog').close(); // Schließt das Modal
+        updateUI(); // Aktualisiert Buttons und Begrüßung (Task 1.2)
+        loadMovies(); // Lädt die Filme des angemeldeten Users nach
+      })
+      .catch(() => {
+        // Zeigt den Fehler im dafür vorgesehenen Element an (Nutzt euren vordefinierten String)
+        document.getElementById('loginError').textContent = messages.loginFailed;
+      });
   });
 
   document.getElementById('cancelLogin').addEventListener('click', () => {
