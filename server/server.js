@@ -9,7 +9,7 @@ const userModel = require("./user-model.js");
 
 const app = express();
 
-// Parse urlencoded bodies
+// Parse JSON bodies
 app.use(bodyParser.json());
 
 // Session middleware
@@ -23,10 +23,6 @@ app.use(session({
 // Serve static content in directory 'files'
 app.use(express.static(path.join(__dirname, "files")));
 
-// =========================================================================
-// AB HIER ERSETZEN / EINFÜGEN
-// =========================================================================
-
 // ==========================================
 // TASK 1.3: requireLogin Middleware
 // ==========================================
@@ -38,7 +34,9 @@ function requireLogin(req, res, next) {
   }
 }
 
+// ==========================================
 // POST /login: Verarbeitet die Login-Daten
+// ==========================================
 app.post("/login", function (req, res) {
   const { username, password } = req.body;
   const user = userModel[username];
@@ -56,46 +54,54 @@ app.post("/login", function (req, res) {
 });
 
 // ==========================================
-// TASK 1.3: GET /logout Endpoint
+// TASK 1.3: GET /logout
 // ==========================================
 app.get("/logout", function (req, res) {
   req.session.destroy(function (err) {
     if (err) {
-      console.error("Logout Fehler:", err);
-      return res.sendStatus(500);
+      res.sendStatus(500);
+    } else {
+      res.sendStatus(200);
     }
-    res.sendStatus(200);
   });
 });
 
-// GET /session: Gibt die aktuelle Session zurück, falls vorhanden
+// ==========================================
+// GET /session: Liefert die aktuelle Session
+// ==========================================
 app.get("/session", function (req, res) {
-  if (req.session.user) {
+  if (req.session && req.session.user) {
     res.send(req.session.user);
   } else {
-    res.status(401).json(null);
+    res.sendStatus(401);
   }
 });
 
-// =========================================================================
-// AB HIER SIND ALLE ROUTEN DURCH 'requireLogin' GESCHÜTZT
-// =========================================================================
-
+// ==========================================
+// GET /movies: Alle Filme des Users auflisten
+// ==========================================
 app.get("/movies", requireLogin, function (req, res) {
   const username = req.session.user.username;
-  let movies = Object.values(movieModel.getUserMovies(username));
-  const queriedGenre = req.query.genre;
-  if (queriedGenre) {
-    movies = movies.filter((movie) => movie.Genres.indexOf(queriedGenre) >= 0);
+  const genre = req.query.genre;
+  const userMovies = Object.values(movieModel.getUserMovies(username));
+
+  if (genre) {
+    const filteredMovies = userMovies.filter(movie => 
+      movie.Genres && movie.Genres.includes(genre)
+    );
+    res.send(filteredMovies);
+  } else {
+    res.send(userMovies);
   }
-  res.send(movies);
 });
 
+// ==========================================
+// GET /movies/:imdbID: Einzelnen Film holen
+// ==========================================
 app.get("/movies/:imdbID", requireLogin, function (req, res) {
   const username = req.session.user.username;
   const id = req.params.imdbID;
   const movie = movieModel.getUserMovie(username, id);
-
   if (movie) {
     res.send(movie);
   } else {
@@ -112,7 +118,6 @@ app.put("/movies/:imdbID", requireLogin, function (req, res) {
   const exists = movieModel.getUserMovie(username, imdbID) !== undefined;
 
   if (!exists) {
-    // Wenn der Film noch nicht existiert, holen wir die Daten von OMDb
     const url = `http://www.omdbapi.com/?i=${encodeURIComponent(imdbID)}&apikey=${config.omdbApiKey}`;
     
     const controller = new AbortController();
@@ -122,19 +127,21 @@ app.put("/movies/:imdbID", requireLogin, function (req, res) {
       .then(apiRes => {
         clearTimeout(timeoutId);
         if (!apiRes.ok) {
-          return res.sendStatus(apiRes.status);
+          res.sendStatus(apiRes.status);
+          return null;
         }
         return apiRes.json();
       })
       .then(omdbMovie => {
-        if (!omdbMovie || omdbMovie.Response === "False") {
+        if (!omdbMovie) return; 
+
+        // OMDb antwortet bei Fehlern mit dem String "False"
+        if (omdbMovie.Response === "False") {
           return res.sendStatus(404);
         }
 
-        // Hilfsfunktion zum sauberen Konvertieren von Komma-Strings in Arrays
         const parseCSV = (str) => str && str !== "N/A" ? str.split(",").map(s => s.trim()) : [];
 
-        // Exakte Konvertierung in das interne Format (wichtig für das korrekte Rendering!)
         const convertedMovie = {
           imdbID: omdbMovie.imdbID,
           Title: omdbMovie.Title,
@@ -151,39 +158,27 @@ app.put("/movies/:imdbID", requireLogin, function (req, res) {
         };
 
         movieModel.setUserMovie(username, imdbID, convertedMovie);
-        res.sendStatus(201); // 201 Created für neu erstellte Filme
+        return res.sendStatus(201); // 201 Created für erfolgreiches Hinzufügen
       })
       .catch(err => {
         clearTimeout(timeoutId);
-        if (err.name === 'AbortError') {
-          return res.sendStatus(504);
+        if (!res.headersSent) {
+          if (err.name === 'AbortError') {
+            return res.sendStatus(504);
+          }
+          console.error("Fehler beim PUT-Fetch:", err);
+          return res.sendStatus(500);
         }
-        res.sendStatus(500);
       });
   } else {
-    // Wenn der Film schon da ist (z.B. Bearbeitung über edit.html), updaten wir ihn einfach mit dem Body
     movieModel.setUserMovie(username, imdbID, req.body);
-    res.sendStatus(200);
+    return res.sendStatus(200);
   }
 });
 
-app.delete("/movies/:imdbID", requireLogin, function (req, res) {
-  const username = req.session.user.username;
-  const id = req.params.imdbID;
-  if (movieModel.deleteUserMovie(username, id)) {
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(404);
-  }
-});
-
-app.get("/genres", requireLogin, function (req, res) {
-  const username = req.session.user.username;
-  const genres = movieModel.getGenres(username);
-  genres.sort();
-  res.send(genres);
-});
-
+// ==========================================
+// GET /search: Filme über OMDb suchen
+// ==========================================
 app.get("/search", requireLogin, function (req, res) {
   const username = req.session.user.username;
   const query = req.query.query;
@@ -200,11 +195,15 @@ app.get("/search", requireLogin, function (req, res) {
     .then(apiRes => {
       clearTimeout(timeoutId);
       if (!apiRes.ok) {
-        return res.sendStatus(apiRes.status);
+        res.sendStatus(apiRes.status);
+        return null;
       }
       return apiRes.json();
     })
     .then(response => {
+      if (!response) return;
+
+      // OMDb antwortet bei Erfolg mit dem String "True"
       if (response.Response === 'True') {
         const results = response.Search
           .filter(movie => !movieModel.hasUserMovie(username, movie.imdbID))
@@ -213,20 +212,46 @@ app.get("/search", requireLogin, function (req, res) {
             imdbID: movie.imdbID,
             Year: isNaN(movie.Year) ? null : parseInt(movie.Year)
           }));
-        res.send(results);
+        return res.send(results);
       } else {
-        res.send([]);
+        return res.send([]); // Leeres Array senden, wenn nichts gefunden wurde
       }
     })
     .catch((err) => {
       clearTimeout(timeoutId);
-      if (err.name === 'AbortError') {
-        return res.sendStatus(504);
+      if (!res.headersSent) {
+        if (err.name === 'AbortError') {
+          return res.sendStatus(504);
+        }
+        console.error("Fehler beim Search-Fetch:", err);
+        return res.sendStatus(500);
       }
-      res.sendStatus(500);
     });
 });
 
-// Ganz am Ende bleibt der Server-Port-Listener unverändert:
-app.listen(config.port);
-console.log(`Server now listening on http://localhost:${config.port}/`);
+// ==========================================
+// DELETE /movies/:imdbID: Film löschen
+// ==========================================
+app.delete("/movies/:imdbID", requireLogin, function (req, res) {
+  const username = req.session.user.username;
+  const id = req.params.imdbID;
+  if (movieModel.deleteUserMovie(username, id)) {
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+// ==========================================
+// GET /genres: Alle Genres des Users holen
+// ==========================================
+app.get("/genres", requireLogin, function (req, res) {
+  const username = req.session.user.username;
+  res.send(movieModel.getGenres(username));
+});
+
+// Server starten
+const port = config.port;
+app.listen(port, () => {
+  console.log(`Server now listening on http://localhost:${port}/`);
+});
