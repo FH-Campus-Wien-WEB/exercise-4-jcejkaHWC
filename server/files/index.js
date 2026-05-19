@@ -88,7 +88,7 @@ function deleteMovie(imdbID) {
 }
 
 // =========================================================================
-// TASK 2.2: Suchergebnisse verarbeiten und rendern
+// TASK 2.2: Suchergebnisse verarbeiten und rendern 
 // =========================================================================
 function searchMovies(query) {
   const resultsContainer = document.getElementById("searchResults");
@@ -116,8 +116,10 @@ function searchMovies(query) {
         const textSpan = new ElementBuilder("span")
           .text(`${movie.Title} (${movie.Year || 'N/A'})`);
         
-        // Button fügt den Film hinzu und übergibt die DOM-Zeile zur späteren Entfernung
-        const addBtn = new ButtonBuilder("Add").onclick(() => {
+        const addBtn = new ButtonBuilder("Add").onclick((e) => {
+          if (e && typeof e.preventDefault === 'function') {
+            e.preventDefault(); // Verhindert, dass der Button das Suchfenster absendet/einfriert
+          }
           addMovie(movie.imdbID, row.element);
         });
 
@@ -137,11 +139,19 @@ function addMovie(imdbID, rowElement) {
   })
   .then(response => {
     if (response.ok || response.status === 201) {
-      // ERFOLG: Entferne die Zeile aus dem Dialog-Fenster (Anforderung Task 2.2)
+      // 1. Entferne SOFORT die Zeile aus dem Suchfenster
       rowElement.remove();
-      // Aktualisiere die Filmgalerie und Genres im Hintergrund
-      loadMovies();
-      updateGenres();
+      
+      
+      setTimeout(() => {
+        loadMovies();
+        updateGenres();
+        
+        // Zwinge den Fokus zurück auf das Suchfenster/Eingabefeld
+        const queryInput = document.getElementById('query');
+        if (queryInput) queryInput.focus();
+      }, 50);
+
     } else {
       alert(messages.addMovieFailed);
     }

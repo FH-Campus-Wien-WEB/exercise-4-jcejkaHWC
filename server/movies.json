@@ -79,6 +79,256 @@
       "Poster": "https://m.media-amazon.com/images/M/MV5BY2RiOTM0ZDgtNDRlMi00MDMzLWI1NDYtY2NjZDM4YTkwNWVlXkEyXkFqcGc@._V1_SX300.jpg",
       "Metascore": 67,
       "imdbRating": 6.9
+    },
+    "tt15398776": {
+      "imdbID": "tt15398776",
+      "Title": "Oppenheimer",
+      "Released": "2023-07-20",
+      "Runtime": 180,
+      "Genres": [
+        "Biography",
+        "Drama",
+        "History"
+      ],
+      "Directors": [
+        "Christopher Nolan"
+      ],
+      "Writers": [
+        "Christopher Nolan",
+        "Kai Bird",
+        "Martin Sherwin"
+      ],
+      "Actors": [],
+      "Plot": "A dramatization of the life story of J. Robert Oppenheimer, the physicist who had a large hand in the development of the atomic bombs that brought an end to World War II.",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BN2JkMDc5MGQtZjg3YS00NmFiLWIyZmQtZTJmNTM5MjVmYTQ4XkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+      "Metascore": 90,
+      "imdbRating": 8.2
+    },
+    "tt13287846": {
+      "imdbID": "tt13287846",
+      "Title": "Napoleon",
+      "Released": "2023-11-21",
+      "Runtime": 158,
+      "Genres": [
+        "Action",
+        "Adventure",
+        "Biography"
+      ],
+      "Directors": [
+        "Ridley Scott"
+      ],
+      "Writers": [
+        "David Scarpa"
+      ],
+      "Actors": [],
+      "Plot": "An epic that details the chequered rise and fall of French Emperor Napoleon Bonaparte and his relentless journey to power through the prism of his addictive, volatile relationship with his wife, Josephine.",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BZGQ1NGUxNDUtNjg3Yi00ZTZjLWIwOTUtNDBjYWY5ZjVmZGI4XkEyXkFqcGc@._V1_SX300.jpg",
+      "Metascore": 64,
+      "imdbRating": 6.3
+    },
+    "tt0076759": {
+      "imdbID": "tt0076759",
+      "Title": "Star Wars: Episode IV - A New Hope",
+      "Released": "1977-05-24",
+      "Runtime": 121,
+      "Genres": [
+        "Action",
+        "Adventure",
+        "Fantasy"
+      ],
+      "Directors": [
+        "George Lucas"
+      ],
+      "Writers": [
+        "George Lucas"
+      ],
+      "Actors": [],
+      "Plot": "Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a Wookiee and two droids to save the galaxy from the Empire's world-destroying battle station, while also attempting to rescue Princess Leia from the mysterious Darth ...",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BOGUwMDk0Y2MtNjBlNi00NmRiLTk2MWYtMGMyMDlhYmI4ZDBjXkEyXkFqcGc@._V1_SX300.jpg",
+      "Metascore": 90,
+      "imdbRating": 8.6
+    },
+    "tt0121766": {
+      "imdbID": "tt0121766",
+      "Title": "Star Wars: Episode III - Revenge of the Sith",
+      "Released": "2005-05-18",
+      "Runtime": 140,
+      "Genres": [
+        "Action",
+        "Adventure",
+        "Fantasy"
+      ],
+      "Directors": [
+        "George Lucas"
+      ],
+      "Writers": [
+        "George Lucas"
+      ],
+      "Actors": [],
+      "Plot": "As the Clone Wars nears its end, Obi-Wan Kenobi pursues a new threat, while Anakin Skywalker is lured by Chancellor Palpatine into a sinister plot for galactic domination.",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BNTc4MTc3NTQ5OF5BMl5BanBnXkFtZTcwOTg0NjI4NA@@._V1_SX300.jpg",
+      "Metascore": 68,
+      "imdbRating": 7.7
+    },
+    "tt2660888": {
+      "imdbID": "tt2660888",
+      "Title": "Star Trek Beyond",
+      "Released": "2016-07-21",
+      "Runtime": 122,
+      "Plot": "The crew of the USS Enterprise explores the furthest reaches of uncharted space, where they encounter a new ruthless enemy, who puts them, and everything the Federation stands for, to the test.",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BN2FhNDI1YTYtNWI0OC00ZjYxLWJlYWEtN2ZiZjRmZDY1MWJjXkEyXkFqcGc@._V1_SX300.jpg",
+      "Metascore": 68,
+      "imdbRating": 7,
+      "Genres": [
+        "Biography"
+      ],
+      "Directors": [
+        "Justin Lin"
+      ],
+      "Writers": [
+        "Simon Pegg",
+        "Doug Jung",
+        "Gene Roddenberry"
+      ],
+      "Actors": [
+        ""
+      ]
+    },
+    "tt8806524": {
+      "imdbID": "tt8806524",
+      "Title": "Star Trek: Picard",
+      "Released": "2020-01-22",
+      "Runtime": 46,
+      "Genres": [
+        "Action",
+        "Adventure",
+        "Drama"
+      ],
+      "Directors": [],
+      "Writers": [
+        "Kirsten Beyer",
+        "Michael Chabon",
+        "Akiva Goldsman"
+      ],
+      "Actors": [],
+      "Plot": "Follow-up to Star Trek: The Next Generation (1987) that centers on Jean-Luc Picard in the next chapter of his life.",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BODEzZWRiYWQtYjMwYi00YThhLWE4OWEtMzY2MWMxNWNhYzY5XkEyXkFqcGc@._V1_SX300.jpg",
+      "Metascore": null,
+      "imdbRating": 7.5
+    },
+    "tt0389790": {
+      "imdbID": "tt0389790",
+      "Title": "Bee Movie",
+      "Released": "2007-11-01",
+      "Runtime": 91,
+      "Genres": [
+        "Animation",
+        "Adventure",
+        "Comedy"
+      ],
+      "Directors": [
+        "Simon J. Smith",
+        "Steve Hickner"
+      ],
+      "Writers": [
+        "Jerry Seinfeld",
+        "Spike Feresten",
+        "Barry Marder"
+      ],
+      "Actors": [],
+      "Plot": "Barry B. Benson, a bee just graduated from college, is disillusioned at his lone career choice: making honey. On a special trip outside the hive, Barry's life is saved by Vanessa, a florist in New York City. As their relationship ...",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BMjE1MDYxOTA4MF5BMl5BanBnXkFtZTcwMDE0MDUzMw@@._V1_SX300.jpg",
+      "Metascore": 54,
+      "imdbRating": 6.1
+    },
+    "tt6769280": {
+      "imdbID": "tt6769280",
+      "Title": "Time Freak",
+      "Released": "2018-11-06",
+      "Runtime": 104,
+      "Genres": [
+        "Comedy",
+        "Drama",
+        "Romance"
+      ],
+      "Directors": [
+        "Andrew Bowler"
+      ],
+      "Writers": [
+        "Andrew Bowler"
+      ],
+      "Actors": [],
+      "Plot": "A genius teenage boy is in love with a girl who breaks up with him after a year. He invents a time machine and tries to fix the breakup repeatedly. He finally goes a year back with his friend to fix the bad days.",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BMmEzODVhYTAtYWE2Ni00MWI5LTk0NjUtNDkxY2ZmYzM5YzIyXkEyXkFqcGc@._V1_SX300.jpg",
+      "Metascore": null,
+      "imdbRating": 5.8
+    },
+    "tt0084787": {
+      "imdbID": "tt0084787",
+      "Title": "The Thing",
+      "Released": "1982-06-24",
+      "Runtime": 109,
+      "Genres": [
+        "Horror",
+        "Mystery",
+        "Sci-Fi"
+      ],
+      "Directors": [
+        "John Carpenter"
+      ],
+      "Writers": [
+        "Bill Lancaster",
+        "John W. Campbell Jr."
+      ],
+      "Actors": [],
+      "Plot": "A research team in Antarctica is hunted by a shape-shifting alien that assumes the appearance of its victims.",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BYTA3NDU5MWEtNTk4Yy00ZDNkLThmZTQtMjU3ZGVhYzAyMzU4XkEyXkFqcGc@._V1_SX300.jpg",
+      "Metascore": 57,
+      "imdbRating": 8.2
+    },
+    "tt0905372": {
+      "imdbID": "tt0905372",
+      "Title": "The Thing",
+      "Released": "2011-10-13",
+      "Runtime": 103,
+      "Genres": [
+        "Horror",
+        "Mystery",
+        "Sci-Fi"
+      ],
+      "Directors": [
+        "Matthijs van Heijningen Jr."
+      ],
+      "Writers": [
+        "Eric Heisserer",
+        "John W. Campbell Jr."
+      ],
+      "Actors": [],
+      "Plot": "A group of scientists researching an alien spaceship found in the Antarctic come face to face with the ship's, not quite dead, occupant.",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BMTMxMjI0MzUyNl5BMl5BanBnXkFtZTcwNjc1NzE5NQ@@._V1_SX300.jpg",
+      "Metascore": 49,
+      "imdbRating": 6.2
+    },
+    "tt0097216": {
+      "imdbID": "tt0097216",
+      "Title": "Do the Right Thing",
+      "Released": "1989-07-20",
+      "Runtime": 120,
+      "Genres": [
+        "Comedy",
+        "Drama"
+      ],
+      "Directors": [
+        "Spike Lee"
+      ],
+      "Writers": [
+        "Spike Lee"
+      ],
+      "Actors": [],
+      "Plot": "On the hottest day of the year on a street in the Bedford-Stuyvesant section of Brooklyn, everyone's hate and bigotry smolders and builds until it explodes into violence.",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BODA2MjU1NTI1MV5BMl5BanBnXkFtZTgwOTU4ODIwMjE@._V1_SX300.jpg",
+      "Metascore": 93,
+      "imdbRating": 7.9
     }
   },
   "jane": {
